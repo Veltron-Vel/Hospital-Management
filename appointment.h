@@ -6,14 +6,15 @@ typedef struct appointment
     int appointment_id;
     int patient_id;
     int doctor_id;
-    char date[11];   /// Format: DD-MM-YYYY
-    char time[6];    /// Formart: HH:MM
+    char date[20];   // Format: DD-MM-YYYY
+    char time[10];    // Format: HH:MM
     char reason[200];
-} appointment;
-
+} Appointment;
 
 void addAppointment();
-void viewAppointments();
-void searchAppointments();
+void viewAppointment();
+void searchAppointment();
+void deleteAppointment();
+void appointmentMenu();
 
 #endif
