@@ -1,18 +1,19 @@
 #ifndef DOCTOR_H
 #define DOCTOR_H
 
-typedef struct doctor
+typedef struct
 {
-    char name[30];
     int id;
+    char name[50];
     int age;
-    char gender;
-    char speciality[30];
-    int experience;
-} doctor;
+    char gender[10];
+    char specialty[50];
+} Doctor;
 
 void addDoctor();
-void viewDoctors();
+void viewDoctor();
 void searchDoctor();
+void deleteDoctor();
+void doctorMenu();
 
 #endif
