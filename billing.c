@@ -1,99 +1,137 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "billing.h"
-
-void addBilling()
+#define FILE_PATH "data/billing.txt"
+void billingMenu()
 {
-    billing B;
-
-    printf("Type patient ID:\n");
-    scanf("%d",&B.patient_id);
-
-    printf("Type total money:\n");
-    scanf("%lf",&B.money);
-
-    printf("Type paid money:\n");
-    scanf("%lf",&B.paid);
-
-    B.due = B.money - B.paid;
-
-    FILE *ptr = fopen("Billings.dat","ab");
-
-    if(ptr==NULL)
+    int choice;
+    do
     {
-    printf("Couldn't open file\n");
-    return;
-    }
+        printf("\n-----BILLING MANAGEMENT-----\n");
+        printf("1. Add bill\n");
+        printf("2. View bill(s)\n");
+        printf("3. Search bill by ID\n");
+        printf("4. Return to main menu\n");
+        printf("Enter a choice: ");
+        scanf("%d", &choice);
 
-    fwrite(&B,sizeof(billing),1,ptr);
-    fclose(ptr);
-
-    printf("Billing added succesfully\n");
-}
-
-void viewBillings()
-{
-    FILE *ptr=fopen("Billings.dat","rb");
-    if(ptr==NULL)
-    {
-        printf("No billing records found\n");
-        return;
-    }
-
-    billing B;
-    while(fread(&B,sizeof(billing),1,ptr))
-    {
-        printf("\n---Billing Data---\n");
-        printf("Patient ID : %d\n", B.patient_id);
-        printf("Total money: %.2lf\n", B.money);
-        printf("Paid       : %.2lf\n", B.paid);
-        printf("Due        : %.2lf\n", B.money-B.paid);
-        printf("---------END---------\n");
-    }
-
-    fclose(ptr);
-}
-
-void searchBilling()
-{
-    billing B;
-    int ID,found=0;
-    printf("Type the patient ID:\n");
-    scanf("%d",&ID);
-
-    FILE *ptr = fopen("Billings.dat","rb");
-    if(ptr==NULL)
-    {
-        printf("File wasnt found\n");
-        return;
-    }
-
-    while(fread(&B,sizeof(billing),1,ptr))
-    {
-        if(B.patient_id==ID)
+        switch(choice)
         {
+            case 1:
+                addBill();
+                break;
+            case 2:
+                viewBill();
+                break;
+            case 3:
+                searchBill();
+                break;
+            case 4:
+                printf("Returning to main menu\n");
+                break;
+            default:
+                printf("Invalid choice. Try again...\n");
+        }
+    } while (choice != 4);
+}
 
-        printf("\n---Billing Data---\n");
-        printf("Patient ID : %d\n", B.patient_id);
-        printf("Total money: %.2lf\n", B.money);
-        printf("Paid       : %.2lf\n", B.paid);
-        printf("Due        : %.2lf\n", B.money-B.paid);
-        printf("---------END---------\n");
-        found = 1;
-        
-        break;
+void addBill()
+{
+    FILE *fp = fopen(FILE_PATH, "a");
+
+    if (fp == NULL)
+    {
+        printf("Failed to open file\n");
+        return;
+    }
+
+    Billing B;
+
+    printf("Enter billing ID: ");
+    scanf("%d", &B.billingID);
+    getchar();
+
+    printf("Enter patient ID: ");
+    scanf("%d", &B.patientID);
+    getchar();
+
+    printf("Enter appointment ID: ");
+    scanf("%d", &B.appointmentID);
+    getchar();
+
+    printf("Enter amount: ");
+    scanf("%f", &B.amount);
+    getchar();
+
+    printf("Enter payment status (Paid/Unpaid): ");
+    fgets(B.paymentStatus, sizeof(B.paymentStatus), stdin);
+    B.paymentStatus[strcspn(B.paymentStatus, "\n")] = '\0';
+
+    fprintf(fp, "%d|%d|%d|%.2f|%s\n", B.billingID, B.patientID, B.appointmentID, B.amount, B.paymentStatus);
+    fclose(fp);
+    printf("Bill added successfully!\n");
+}
+
+void viewBill()
+{
+    FILE *fp = fopen(FILE_PATH, "r");
+
+    if (fp == NULL)
+    {
+        printf("Failed to open file\n");
+        return;
+    }
+    Billing B;
+
+    printf("\n-----BILLING RECORDS-----\n");
+    while (fscanf(fp, "%d|%d|%d|%f|%19[^\n]\n", &B.billingID, &B.patientID, &B.appointmentID, &B.amount, &B.paymentStatus) == 5)
+    {
+        printf("Billing ID    : %d\n", B.billingID);
+        printf("Patient ID    : %d\n", B.patientID);
+        printf("Appointment ID: %d\n", B.appointmentID);
+        printf("Amount        : %.2f\n", B.amount);
+        printf("Payment Status: %s\n", B.paymentStatus);
+        printf("\n");
+    }
+    printf("-----END-----\n");
+    fclose(fp);
+}
+
+void searchBill()
+{
+    int targetID, found = 0;
+    FILE *fp = fopen(FILE_PATH, "r");
+
+    if (fp == NULL)
+    {
+        printf("Failed to open file\n");
+        return;
+    }
+    Billing B;
+
+    printf("Enter bill ID: ");
+    scanf("%d", &targetID);
+    getchar();
+
+    while (fscanf(fp, "%d|%d|%d|%f|%19[^\n]\n", &B.billingID, &B.patientID, &B.appointmentID, &B.amount, &B.paymentStatus) == 5)
+    {
+        if (targetID == B.billingID)
+        {
+            found = 1;
+            printf("\n-----BILLING INFORMATION-----\n");
+            printf("Billing ID    : %d\n", B.billingID);
+            printf("Patient ID    : %d\n", B.patientID);
+            printf("Appointment ID: %d\n", B.appointmentID);
+            printf("Amount        : %.2f\n", B.amount);
+            printf("Payment Status: %s\n", B.paymentStatus);
+            printf("-----END-----\n");
         }
     }
+    fclose(fp);
 
-    fclose(ptr);
-
-    if(found == 0)
+    if (found = 0)
     {
-        printf("No billing information found with this ID\n");
+        printf("Billing information not found\n");
     }
 }
-
-
-
-
-
