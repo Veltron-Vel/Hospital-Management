@@ -1,94 +1,50 @@
+#include <direct.h>
 #include <stdio.h>
-#include "patients.h"
+#include <string.h>
+#include "patient.h"
 #include "doctor.h"
 #include "appointment.h"
 #include "billing.h"
 
-int main()
+void showMenu()
 {
-    int input;
-
-    while(1)
+    _mkdir("data"); //creates 'data' folder if it doesn't exist
+    int choice;
+    do
     {
-        printf("\n------------Hospital Management System------------\n");
-        printf("1. Add Patient\n");
-        printf("2. View Patients\n");
-        printf("3. Search Patient by ID\n");
-        printf("4. Add Doctor\n");
-        printf("5. View Doctors\n");
-        printf("6. Search Doctor by ID\n");
-        printf("7. Add Appointment\n");
-        printf("8. View Appointments\n");
-        printf("9. Search Appointment by ID\n");
-        printf("10. Add Billing\n");
-        printf("11. View Billings\n");
-        printf("12. Search Billings by patient ID\n");
+        printf("\n-----HOSPITAL MANAGEMENT SYSTEM-----\n");
+        printf("1. Patient Management\n");
+        printf("2. Doctor management\n");
+        printf("3. Appointment\n");
+        printf("4. Billing\n");
+        printf("5. Exit\n");
+        printf("Enter a choice: ");
+        scanf("%d", &choice);
 
-        printf("0. Exit\n");
-
-        printf("Type which function you want to use:\n");
-        scanf("%d",&input);
-        while(getchar()!='\n');
-
-        switch(input)
+        switch(choice)
         {
             case 1:
-            addPatient();
-            break;
-
+                patientMenu();
+                break;
             case 2:
-            viewPatient();
-            break;
-
+                doctorMenu();
+                break;
             case 3:
-            searchPatient();
-            break;
-
+                appointmentMenu();
+                break;
             case 4:
-            addDoctor();
-            break;
-
+                billingMenu();
+                break;
             case 5:
-            viewDoctors();
-            break;
-
-            case 6:
-            searchDoctor();
-            break;
-
-            case 7:
-            addAppointment();
-            break;
-
-            case 8:
-            viewAppointments();
-            break;
-
-            case 9:
-            searchAppointments();
-            break;
-
-            case 10:
-            addBilling();
-            break;
-
-            case 11:
-            viewBillings();
-            break;
-
-            case 12:
-            searchBilling();
-            break;
-
-            case 0:
-            printf("Exiting program\n");
-            return 0;
-
+                printf("Exiting system...\n");
+                break;
             default:
-            printf("Invalid choice, try again\n");
-            break;            
+                printf("Invalid choice. Try again...\n");
         }
-    }
-
+    } while (choice != 5);
+}
+int main()
+{
+    showMenu();
     return 0;
 }
