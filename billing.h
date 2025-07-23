@@ -13,6 +13,7 @@ typedef struct
 void addBill();
 void viewBill();
 void searchBill();
+void updateStatus();
 void billingMenu();
 
 #endif
