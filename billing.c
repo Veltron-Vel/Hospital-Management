@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "billing.h"
+#include "patient.h"
+#include "appointment.h"
 #define FILE_PATH "data/billing.txt"
+
 void billingMenu()
 {
     int choice;
@@ -40,6 +43,48 @@ void billingMenu()
     } while (choice != 5);
 }
 
+int BpatientExists(int targetpid)
+{
+    Patient P;
+    FILE *fp = fopen("data/patient.txt", "r");
+    if (fp == NULL)
+    {
+        return 0;
+    }
+
+    while (fscanf(fp, "%d|%49[^|]|%d|%9[^|]|%49[^\n]\n", &P.id, &P.name, &P.age, &P.gender, &P.disease) == 5)
+    {
+        if (targetpid == P.id)
+        {
+            fclose(fp);
+            return 1;
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
+int appointmentExists(int targetaid)
+{
+    Appointment A;
+    FILE *fp = fopen("data/appointment.txt", "r");
+    if (fp == NULL)
+    {
+        return 0;
+    }
+
+    while (fscanf(fp, "%d|%d|%d|%19[^|]|%9[^|]|%199[^\n]\n", &A.appointment_id, &A.patient_id, &A.doctor_id, &A.date, &A.time, &A.reason) == 6)
+    {
+        if (targetaid == A.appointment_id)
+        {
+            fclose(fp);
+            return 1;
+        }
+    }
+    fclose(fp);
+    return 0;
+}
+
 void addBill()
 {
     FILE *fp = fopen(FILE_PATH, "a");
@@ -60,9 +105,23 @@ void addBill()
     scanf("%d", &B.patientID);
     while (getchar() != '\n');
 
+    if (BpatientExists(B.patientID) != 1)
+    {
+        printf("Error: Patient not found\n");
+        fclose(fp);
+        return;
+    }
+
     printf("Enter appointment ID: ");
     scanf("%d", &B.appointmentID);
     while (getchar() != '\n');
+
+    if (appointmentExists(B.appointmentID) != 1)
+    {
+        printf("Error: Appointment not found\n");
+        fclose(fp);
+        return;
+    }
 
     printf("Enter amount: ");
     scanf("%f", &B.amount);
