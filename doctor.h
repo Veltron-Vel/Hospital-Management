@@ -1,19 +1,19 @@
-#ifndef BILLING_H
-#define BILLING_H
+#ifndef DOCTOR_H
+#define DOCTOR_H
 
 typedef struct
 {
-    int billingID;
-    int patientID;
-    int appointmentID;
-    float amount;
-    char paymentStatus[20];
-} Billing;
+    int id;
+    char name[50];
+    int age;
+    char gender[10];
+    char specialty[50];
+} Doctor;
 
-void addBill();
-void viewBill();
-void searchBill();
-void updateStatus();
-void billingMenu();
+void addDoctor();
+void viewDoctor();
+void searchDoctor();
+void deleteDoctor();
+void doctorMenu();
 
 #endif
