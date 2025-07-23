@@ -12,7 +12,8 @@ void billingMenu()
         printf("1. Add bill\n");
         printf("2. View bill(s)\n");
         printf("3. Search bill by ID\n");
-        printf("4. Return to main menu\n");
+        printf("4. Update payment status\n");
+        printf("5. Return to main menu\n");
         printf("Enter a choice: ");
         scanf("%d", &choice);
 
@@ -28,12 +29,15 @@ void billingMenu()
                 searchBill();
                 break;
             case 4:
+                updateStatus();
+                break;
+            case 5:
                 printf("Returning to main menu\n");
                 break;
             default:
                 printf("Invalid choice. Try again...\n");
         }
-    } while (choice != 4);
+    } while (choice != 5);
 }
 
 void addBill()
@@ -50,19 +54,19 @@ void addBill()
 
     printf("Enter billing ID: ");
     scanf("%d", &B.billingID);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter patient ID: ");
     scanf("%d", &B.patientID);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter appointment ID: ");
     scanf("%d", &B.appointmentID);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter amount: ");
     scanf("%f", &B.amount);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter payment status (Paid/Unpaid): ");
     fgets(B.paymentStatus, sizeof(B.paymentStatus), stdin);
@@ -112,7 +116,7 @@ void searchBill()
 
     printf("Enter bill ID: ");
     scanf("%d", &targetID);
-    getchar();
+    while (getchar() != '\n');
 
     while (fscanf(fp, "%d|%d|%d|%f|%19[^\n]\n", &B.billingID, &B.patientID, &B.appointmentID, &B.amount, &B.paymentStatus) == 5)
     {
@@ -134,4 +138,47 @@ void searchBill()
     {
         printf("Billing information not found\n");
     }
+}
+
+void updateStatus()
+{
+    int targetID, found = 0;
+     FILE *fp = fopen(FILE_PATH, "r");
+     FILE *temp = fopen("data/temp.txt", "w");
+
+     if (fp == NULL || temp == NULL)
+     {
+        printf("Failed to open file\n");
+        return;
+     }
+     Billing B;
+
+     printf("Enter billing ID: ");
+     scanf("%d", &targetID);
+     while (getchar() != '\n');
+
+     while (fscanf(fp, "%d|%d|%d|%f|%19[^\n]\n", &B.billingID, &B.patientID, &B.appointmentID, &B.amount, &B.paymentStatus) == 5)
+     {
+        if (targetID == B.billingID)
+        {
+            found = 1;
+            printf("Enter new payment status: ");
+            fgets(B.paymentStatus, sizeof(B.paymentStatus), stdin);
+            B.paymentStatus[strcspn(B.paymentStatus, "\n")] = '\0';
+        }
+        fprintf(temp, "%d|%d|%d|%.2f|%s\n", B.billingID, B.patientID, B.appointmentID, B.amount, B.paymentStatus);
+     }
+     fclose(fp);
+     fclose(temp);
+     if (found == 1)
+     {
+        remove("data/billing.txt");
+        rename("data/temp.txt", "data/billing.txt");
+        printf("Payment status updated succesfully!\n");
+     }
+     else
+     {
+        remove("data/temp.txt");
+        printf("Billing information not found\n");
+     }
 }
