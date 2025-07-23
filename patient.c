@@ -138,7 +138,7 @@ void searchPatient()
 
     if (found == 0)
     {
-        printf("No doctor found with this ID\n");
+        printf("No patient found with this ID\n");
     }
 }
 
