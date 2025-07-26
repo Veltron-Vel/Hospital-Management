@@ -92,7 +92,7 @@ void viewDoctor()
         printf("Name   : %s\n", D.name);
         printf("Age    : %d\n", D.age);
         printf("Gender : %s\n", D.gender);
-        printf("Disease: %s\n", D.specialty);
+        printf("Specialty: %s\n", D.specialty);
         printf("\n");
     }
     printf("---------END---------\n");
