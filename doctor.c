@@ -88,10 +88,10 @@ void viewDoctor()
     printf("\n-----DOCTOR RECORDS-----\n");
     while (fscanf(fp, "%d|%49[^|]|%d|%9[^|]|%49[^\n]\n", &D.id, &D.name, &D.age, &D.gender, &D.specialty) == 5)
     {
-        printf("ID     : %d\n", D.id);
-        printf("Name   : %s\n", D.name);
-        printf("Age    : %d\n", D.age);
-        printf("Gender : %s\n", D.gender);
+        printf("ID       : %d\n", D.id);
+        printf("Name     : %s\n", D.name);
+        printf("Age      : %d\n", D.age);
+        printf("Gender   : %s\n", D.gender);
         printf("Specialty: %s\n", D.specialty);
         printf("\n");
     }
