@@ -7,46 +7,65 @@
 #include "billing.h"
 
 int login();
-void showMenu();
+void showAdminMenu();
+void showUserMenu();
 
 int main()
 {
-    if (login() == 0)
+    _mkdir("data"); //creates 'data' folder if it doesn't exist
+    int access = login();
+
+    if (access == 1)
     {
-        return 0;
+        printf("\nLogin successful. Welcome to Hospital Management System!\n");
+        showAdminMenu();
     }
-    showMenu();
+    else if (access == -1)
+    {
+        printf("\nInvalid password. Access denied");
+        return -1;
+    }
+    else
+    {
+        printf("\nWelcome to Hospital Management System!\n");
+        showUserMenu();
+    }
     return 0;
 }
 
 int login()
 {
-    char username[20], password[20];
+    int user;
+    char password[20];
     printf("-----LOGIN-----\n");
-
-    printf("Enter username: ");
-    fgets(username, sizeof(username), stdin);
-    username[strcspn(username, "\n")] = '\0';
-
-    printf("Enter password: ");
-    fgets(password, sizeof(password), stdin);
-    password[strcspn(password, "\n")] = '\0';
-
-    if (strcmp(username, "admin001") == 0 && strcmp(password, "12345678") == 0)
+    printf("Log in as:\n");
+    printf("1. Admin\n");
+    printf("2. User\n");
+    scanf("%d", &user);
+    while(getchar() != '\n');
+    
+    if (user == 1)
     {
-        printf("Login successful!\n");
-        return 1;
+        printf("Enter password: ");
+        fgets(password, sizeof(password), stdin);
+        password[strcspn(password, "\n")] = '\0';
+        if (strcmp(password, "12345678") == 0)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
     }
-    else
+    else if (user == 2)
     {
-        printf("Login failed!\n");
         return 0;
     }
 }
 
-void showMenu()
+void showAdminMenu()
 {
-    _mkdir("data"); //creates 'data' folder if it doesn't exist
     int choice;
     do
     {
@@ -73,6 +92,44 @@ void showMenu()
                 break;
             case 4:
                 billingMenu();
+                break;
+            case 5:
+                printf("Exiting system...\n");
+                break;
+            default:
+                printf("Invalid choice. Try again...\n");
+        }
+    } while (choice != 5);
+}
+
+void showUserMenu()
+{
+    int choice;
+    do
+    {
+        printf("\n-----HOSPITAL MANAGEMENT SYSTEM-----\n");
+        printf("1. Search patient by ID\n");
+        printf("2. View available doctors\n");
+        printf("3. Search appointment by ID\n");
+        printf("4. Search billing by ID\n");
+        printf("5. Exit\n");
+        printf("Enter a choice: ");
+        scanf("%d", &choice);
+        while (getchar() != '\n');
+
+        switch(choice)
+        {
+            case 1:
+                searchPatient();
+                break;
+            case 2:
+                viewDoctor();
+                break;
+            case 3:
+                searchAppointment();
+                break;
+            case 4:
+                searchBill();
                 break;
             case 5:
                 printf("Exiting system...\n");
