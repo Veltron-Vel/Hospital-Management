@@ -96,11 +96,11 @@ void addAppointment()
     Appointment A;
     printf("Enter appointment id: ");
     scanf("%d", &A.appointment_id);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter patient's ID: ");
     scanf("%d", &A.patient_id);
-    getchar();
+    while (getchar() != '\n');
 
     if (patientExists(A.patient_id) != 1)
     {
@@ -111,7 +111,7 @@ void addAppointment()
 
     printf("Enter the doctors ID: ");
     scanf("%d", &A.doctor_id);
-    getchar();
+    while (getchar() != '\n');
 
     if (doctorExists(A.doctor_id) != 1)
     {
@@ -178,6 +178,7 @@ void searchAppointment()
 
     printf("Enter appointment ID: ");
     scanf("%d", &ID);
+    while (getchar() != '\n');
 
     while(fscanf(fp, "%d|%d|%d|%10[^|]|%5[^|]|%199[^\n]\n", &A.appointment_id, &A.patient_id, &A.doctor_id, &A.date, &A.time, &A.reason) == 6)
     {
@@ -220,6 +221,7 @@ void deleteAppointment()
 
     printf("Enter appointment ID: ");
     scanf("%d", &targetID);
+    while (getchar() != '\n');
     Appointment A;
     while(fscanf(fp, "%d|%d|%d|%10[^|]|%5[^|]|%199[^\n]\n", &A.appointment_id, &A.patient_id, &A.doctor_id, &A.date, &A.time, &A.reason) == 6)
     {
