@@ -139,7 +139,7 @@ void addBill()
 void viewBill()
 {
     FILE *fp = fopen(FILE_PATH, "r");
-
+    int count = 0;
     if (fp == NULL)
     {
         printf("Failed to open file\n");
@@ -156,9 +156,17 @@ void viewBill()
         printf("Amount        : %.2f\n", B.amount);
         printf("Payment Status: %s\n", B.paymentStatus);
         printf("\n");
+        count++;
     }
-    printf("-----END-----\n");
-    fclose(fp);
+    if (count > 0)
+    {
+        printf("-----END-----\n");
+    }
+    else
+    {
+        printf("No billing information found\n");
+    }
+        fclose(fp);
 }
 
 void searchBill()
