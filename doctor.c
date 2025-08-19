@@ -52,7 +52,7 @@ void addDoctor()
 
     printf("Enter doctor's id: ");
     scanf("%d", &D.id);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter name: ");
     fgets(D.name, sizeof(D.name), stdin);
@@ -60,7 +60,7 @@ void addDoctor()
 
     printf("Enter age: ");
     scanf("%d", &D.age);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter gender: ");
     fgets(D.gender, sizeof(D.gender), stdin);
@@ -110,6 +110,7 @@ void searchDoctor()
     }
     printf("Enter doctor's ID: ");
     scanf("%d", &targetID);
+    while (getchar() != '\n');
     Doctor D;
 
     while (fscanf(fp, "%d|%49[^|]|%d|%9[^|]|%49[^\n]\n", &D.id, &D.name, &D.age, &D.gender, &D.specialty) == 5)
@@ -119,11 +120,11 @@ void searchDoctor()
             found = 1;
 
             printf("\n-----DOCTOR INFORMATION-----\n");
-            printf("ID     : %d\n", D.id);
-            printf("Name   : %s\n", D.name);
-            printf("Age    : %d\n", D.age);
-            printf("Gender : %s\n", D.gender);
-            printf("Disease: %s\n", D.specialty);
+            printf("ID       : %d\n", D.id);
+            printf("Name     : %s\n", D.name);
+            printf("Age      : %d\n", D.age);
+            printf("Gender   : %s\n", D.gender);
+            printf("Specialty: %s\n", D.specialty);
             printf("---------END---------\n");
         break;
         }
@@ -151,7 +152,7 @@ void deleteDoctor()
 
     printf("Enter doctor's id: ");
     scanf("%d", &targetID);
-    getchar();
+    while (getchar() != '\n');
 
     while (fscanf(fp, "%d|%49[^|]|%d|%9[^|]|%49[^\n]\n", &D.id, &D.name, &D.age, &D.gender, &D.specialty) == 5)
     {
