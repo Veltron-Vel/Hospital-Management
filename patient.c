@@ -17,6 +17,8 @@ void patientMenu()
         printf("5. Return to main menu\n");
         printf("Enter a choice: ");
         scanf("%d", &choice);
+        while(getchar() != '\n');
+
         switch(choice)
         {
             case 1:
@@ -54,7 +56,7 @@ void addPatient()
 
     printf("Enter patient id: ");
     scanf("%d", &P.id);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter name: ");
     fgets(P.name, sizeof(P.name), stdin);
@@ -62,7 +64,7 @@ void addPatient()
 
     printf("Enter age: ");
     scanf("%d", &P.age);
-    getchar();
+    while (getchar() != '\n');
 
     printf("Enter gender: ");
     fgets(P.gender, sizeof(P.gender), stdin);
@@ -114,8 +116,9 @@ void searchPatient()
         printf("Failed to open file\n");
         return;
     }
-    printf("Enter patient's ID: ");
+    printf("Search patient by ID: ");
     scanf("%d", &targetID);
+    while (getchar() != '\n');
     Patient P;
 
     while (fscanf(fp, "%d|%49[^|]|%d|%9[^|]|%49[^\n]\n", &P.id, &P.name, &P.age, &P.gender, &P.disease) == 5)
@@ -155,6 +158,7 @@ void deletePatient()
 
     printf("Enter patient's ID: ");
     scanf("%d", &targetID);
+    while (getchar() != '\n');
     Patient P;
 
     while (fscanf(fp, "%d|%49[^|]|%d|%9[^|]|%49[^\n]\n", &P.id, &P.name, &P.age, &P.gender, &P.disease) == 5)
