@@ -78,6 +78,7 @@ void addDoctor()
 void viewDoctor()
 {
     FILE *fp = fopen(FILE_PATH, "r");
+    int count = 0;
     if (fp == NULL)
     {
         printf("Failed to open file\n");
@@ -94,8 +95,16 @@ void viewDoctor()
         printf("Gender   : %s\n", D.gender);
         printf("Specialty: %s\n", D.specialty);
         printf("\n");
+        count++;
     }
-    printf("---------END---------\n");
+    if (count > 0)
+    {
+        printf("---------END---------\n");
+    }
+    else
+    {
+        printf("No doctor information found in the records\n");
+    }
     fclose(fp);
 }
 
