@@ -11,7 +11,7 @@ void billingMenu()
     int choice;
     do
     {
-        printf("\n-----BILLING MANAGEMENT-----\n");
+        printf("\n\033[1;34m-----BILLING MANAGEMENT-----\033[0m\n");
         printf("1. Add bill\n");
         printf("2. View bill(s)\n");
         printf("3. Search bill by ID\n");
@@ -35,10 +35,10 @@ void billingMenu()
                 updateStatus();
                 break;
             case 5:
-                printf("Returning to main menu\n");
+                printf("\033[34mReturning to main menu\033[0m\n");
                 break;
             default:
-                printf("Invalid choice. Try again...\n");
+                printf("\033[31mInvalid choice. Try again...\033[0m\n");
         }
     } while (choice != 5);
 }
@@ -91,7 +91,7 @@ void addBill()
 
     if (fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
 
@@ -107,7 +107,7 @@ void addBill()
 
     if (BpatientExists(B.patientID) != 1)
     {
-        printf("Error: Patient not found\n");
+        printf("\033[31mError: Patient not found\033[0m\n");
         fclose(fp);
         return;
     }
@@ -118,7 +118,7 @@ void addBill()
 
     if (appointmentExists(B.appointmentID) != 1)
     {
-        printf("Error: Appointment not found\n");
+        printf("\033[31mError: Appointment not found\033[0m\n");
         fclose(fp);
         return;
     }
@@ -133,7 +133,7 @@ void addBill()
 
     fprintf(fp, "%d|%d|%d|%.2f|%s\n", B.billingID, B.patientID, B.appointmentID, B.amount, B.paymentStatus);
     fclose(fp);
-    printf("Bill added successfully!\n");
+    printf("\033[32mBill added successfully!\033[0m\n");
 }
 
 void viewBill()
@@ -142,12 +142,12 @@ void viewBill()
     int count = 0;
     if (fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
     Billing B;
 
-    printf("\n-----BILLING RECORDS-----\n");
+    printf("\n\033[1;34m-----BILLING RECORDS-----\033[0m\n");
     while (fscanf(fp, "%d|%d|%d|%f|%19[^\n]\n", &B.billingID, &B.patientID, &B.appointmentID, &B.amount, &B.paymentStatus) == 5)
     {
         printf("Billing ID    : %d\n", B.billingID);
@@ -160,11 +160,11 @@ void viewBill()
     }
     if (count > 0)
     {
-        printf("-----END-----\n");
+        printf("\033[1;34m-----END-----\033[0m\n");
     }
     else
     {
-        printf("No billing information found\n");
+        printf("\033[31mNo billing information found\033[0m\n");
     }
         fclose(fp);
 }
@@ -176,7 +176,7 @@ void searchBill()
 
     if (fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
     Billing B;
@@ -190,20 +190,20 @@ void searchBill()
         if (targetID == B.billingID)
         {
             found = 1;
-            printf("\n-----BILLING INFORMATION-----\n");
+            printf("\n\033[1;34m-----BILLING INFORMATION-----\033[0m\n");
             printf("Billing ID    : %d\n", B.billingID);
             printf("Patient ID    : %d\n", B.patientID);
             printf("Appointment ID: %d\n", B.appointmentID);
             printf("Amount        : %.2f\n", B.amount);
             printf("Payment Status: %s\n", B.paymentStatus);
-            printf("-----END-----\n");
+            printf("\033[1;34m-----END-----\033[0m\n");
         }
     }
     fclose(fp);
 
     if (found = 0)
     {
-        printf("Billing information not found\n");
+        printf("\033[31mBilling information not found\033[0m\n");
     }
 }
 
@@ -215,7 +215,7 @@ void updateStatus()
 
      if (fp == NULL || temp == NULL)
      {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
      }
      Billing B;
@@ -241,11 +241,11 @@ void updateStatus()
      {
         remove("data/billing.txt");
         rename("data/temp.txt", "data/billing.txt");
-        printf("Payment status updated succesfully!\n");
+        printf("\033[32mPayment status updated succesfully!\033[0m\n");
      }
      else
      {
         remove("data/temp.txt");
-        printf("Billing information not found\n");
+        printf("\033[31mBilling information not found\033[0m\n");
      }
 }
