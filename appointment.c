@@ -141,6 +141,7 @@ void addAppointment()
 void viewAppointment()
 {
     FILE *fp = fopen(FILE_PATH, "r");
+    int count = 0;
     if(fp == NULL)
     {
         printf("No appointment records found\n");
@@ -158,9 +159,16 @@ void viewAppointment()
         printf("Time          : %s\n", A.time);
         printf("Reason        : %s\n", A.reason);
         printf("\n");
+        count++;
     }
-    printf("---------END---------\n");
-
+    if (count > 0)
+    {
+        printf("---------END---------\n");
+    }
+    else
+    {
+        printf("No appointment found\n");
+    }
     fclose(fp);
 }
 
