@@ -12,7 +12,7 @@ void showUserMenu();
 
 int main()
 {
-    _mkdir("data"); //creates 'data' folder if it doesn't exist
+    _mkdir("data");
     int access = login();
 
     if (access == 1)
