@@ -1,0 +1,5 @@
+101|Tanvir Hossain|32|Male|Fever
+102|Gazi Tajbir|47|Male|Diabetes
+103|Rubayed Islam|33|Male|Fracture
+104|Selina Akhter|60|Female|Heart Disease
+105|Sakib Sarker|19|Male|Asthma
