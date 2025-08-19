@@ -9,7 +9,7 @@ void doctorMenu()
     int choice;
     do
     {
-        printf("\n-----DOCTOR MANAGEMENT-----\n");
+        printf("\n\033[1;34m-----DOCTOR MANAGEMENT-----\033[0m\n");
         printf("1. Add doctor\n");
         printf("2. View doctor(s)\n");
         printf("3. Search doctor by ID\n");
@@ -32,10 +32,10 @@ void doctorMenu()
                 deleteDoctor();
                 break;
             case 5:
-                printf("Returning to main menu\n");
+                printf("\033[34mReturning to main menu\033[0m\n");
                 break;
             default:
-                printf("Invalid choice. Try again...\n");
+                printf("\033[31mInvalid choice. Try again...\033[0m\n");
         }
     } while (choice != 5);
 }
@@ -45,7 +45,7 @@ void addDoctor()
     FILE *fp = fopen(FILE_PATH, "a");
     if (fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
     Doctor D;
@@ -72,7 +72,7 @@ void addDoctor()
 
     fprintf(fp, "%d|%s|%d|%s|%s\n", D.id, D.name, D.age, D.gender, D.specialty);
     fclose(fp);
-    printf("Doctor added successfully!\n");
+    printf("\033[32mDoctor added successfully!\033[0m\n");
 }
 
 void viewDoctor()
@@ -81,12 +81,12 @@ void viewDoctor()
     int count = 0;
     if (fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
     Doctor D;
 
-    printf("\n-----DOCTOR RECORDS-----\n");
+    printf("\n\033[1;34m-----DOCTOR RECORDS-----\033[0m\n");
     while (fscanf(fp, "%d|%49[^|]|%d|%9[^|]|%49[^\n]\n", &D.id, &D.name, &D.age, &D.gender, &D.specialty) == 5)
     {
         printf("ID       : %d\n", D.id);
@@ -99,11 +99,11 @@ void viewDoctor()
     }
     if (count > 0)
     {
-        printf("---------END---------\n");
+        printf("\033[1;34m---------END---------\033[0m\n");
     }
     else
     {
-        printf("No doctor information found in the records\n");
+        printf("\033[31mNo doctor information found in the records\033[0m\n");
     }
     fclose(fp);
 }
@@ -114,7 +114,7 @@ void searchDoctor()
     FILE *fp = fopen(FILE_PATH, "r");
     if (fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
     printf("Enter doctor's ID: ");
@@ -128,13 +128,13 @@ void searchDoctor()
         {
             found = 1;
 
-            printf("\n-----DOCTOR INFORMATION-----\n");
+            printf("\n\033[1;34m-----DOCTOR INFORMATION-----\033[0m\n");
             printf("ID       : %d\n", D.id);
             printf("Name     : %s\n", D.name);
             printf("Age      : %d\n", D.age);
             printf("Gender   : %s\n", D.gender);
             printf("Specialty: %s\n", D.specialty);
-            printf("---------END---------\n");
+            printf("\033[1;34m---------END---------\033[0m\n");
         break;
         }
     }
@@ -142,7 +142,7 @@ void searchDoctor()
 
     if (found == 0)
     {
-        printf("No doctor found with this ID\n");
+        printf("\033[31mNo doctor found with this ID\033[0m\n");
     }
 }
 
@@ -154,7 +154,7 @@ void deleteDoctor()
 
     if (fp == NULL || temp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
     Doctor D;
@@ -181,10 +181,10 @@ void deleteDoctor()
 
     if (found == 1)
     {
-        printf("Doctor deleted successfully!\n");
+        printf("\033[32mDoctor deleted successfully!\033[0m\n");
     }
     else
     {
-        printf("Doctor data not found\n");
+        printf("\033[31mDoctor data not found\033[0m\n");
     }
 }
