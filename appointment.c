@@ -11,7 +11,7 @@ void appointmentMenu()
     int choice;
     do
     {
-        printf("\n-----APPOINTMENT MANAGEMENT-----\n");
+        printf("\n\033[1;34m-----APPOINTMENT MANAGEMENT-----\033[0m\n");
         printf("1. Add appointment\n");
         printf("2. View appointment(s)\n");
         printf("3. Search appointment by ID\n");
@@ -34,10 +34,10 @@ void appointmentMenu()
                 deleteAppointment();
                 break;
             case 5:
-                printf("Returning to main menu\n");
+                printf("\033[34mReturning to main menu\033[0m\n");
                 break;
             default:
-                printf("Invalid choice. Try again...\n");
+                printf("\033[31mInvalid choice. Try again...\033[0m\n");
         }
     } while (choice != 5);
 }
@@ -89,7 +89,7 @@ void addAppointment()
     FILE *fp = fopen(FILE_PATH, "a");
     if(fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
 
@@ -104,7 +104,7 @@ void addAppointment()
 
     if (patientExists(A.patient_id) != 1)
     {
-        printf("Error: Patient not found\n");
+        printf("\033[31mError: Patient not found\033[0m\n");
         fclose(fp);
         return;
     }
@@ -115,7 +115,7 @@ void addAppointment()
 
     if (doctorExists(A.doctor_id) != 1)
     {
-        printf("Error: doctor not found\n");
+        printf("\033[31mError: doctor not found\033[0m\n");
         fclose(fp);
         return;
     }
@@ -135,7 +135,7 @@ void addAppointment()
     fprintf(fp, "%d|%d|%d|%s|%s|%s\n", A.appointment_id, A.patient_id, A.doctor_id, A.date, A.time, A.reason);
     fclose(fp);
 
-    printf("Appointment added successfully!\n");
+    printf("\033[32mAppointment added successfully!\033[0m\n");
 }
 
 void viewAppointment()
@@ -144,12 +144,12 @@ void viewAppointment()
     int count = 0;
     if(fp == NULL)
     {
-        printf("No appointment records found\n");
+        printf("\033[31mNo appointment records found\033[0m\n");
         return;
     }
 
     Appointment A;
-    printf("\n-----Appointment Data-----\n");
+    printf("\n\033[1;34m-----Appointment Data-----\033[0m\n");
     while(fscanf(fp, "%d|%d|%d|%19[^|]|%9[^|]|%199[^\n]\n", &A.appointment_id, &A.patient_id, &A.doctor_id, &A.date, &A.time, &A.reason) == 6)
     {
         printf("Appointment ID: %d\n", A.appointment_id);
@@ -163,11 +163,11 @@ void viewAppointment()
     }
     if (count > 0)
     {
-        printf("---------END---------\n");
+        printf("\033[1;34m---------END---------\033[0m\n");
     }
     else
     {
-        printf("No appointment found\n");
+        printf("\033[31mNo appointment found\033[0m\n");
     }
     fclose(fp);
 }
@@ -180,7 +180,7 @@ void searchAppointment()
     FILE *fp = fopen(FILE_PATH, "r");
     if(fp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
 
@@ -194,14 +194,14 @@ void searchAppointment()
         {
         found = 1;
 
-        printf("\n-----APPOINTMENT DATA-----\n");
+        printf("\n\033[1;34m-----APPOINTMENT DATA-----\033[0m\n");
         printf("Appointment ID :%d\n",A.appointment_id);
         printf("Patient ID     : %d\n", A.patient_id);
         printf("Doctors ID     : %d\n", A.doctor_id);
         printf("Date           : %s\n", A.date);
         printf("Time           : %s\n", A.time);
         printf("Reason         : %s\n", A.reason);
-        printf("---------END---------\n");
+        printf("\033[1;34m---------END---------\033[0m\n");
 
         break;
         }
@@ -211,7 +211,7 @@ void searchAppointment()
 
     if(found == 0)
     {
-        printf("No appointment found with this ID\n");
+        printf("\033[31mNo appointment found with this ID\033[0m\n");
     }
 }
 
@@ -223,7 +223,7 @@ void deleteAppointment()
 
     if (fp == NULL || temp == NULL)
     {
-        printf("Failed to open file\n");
+        printf("\033[31mFailed to open file\033[0m\n");
         return;
     }
 
@@ -250,10 +250,10 @@ void deleteAppointment()
 
     if (found == 1)
     {
-        printf("Appointment deleted successfully!\n");
+        printf("\033[32mAppointment deleted successfully!\033[0m\n");
     }
     else
     {
-        printf("Appointment not found\n");
+        printf("\033[31mAppointment not found\033[0m\n");
     }
 }
