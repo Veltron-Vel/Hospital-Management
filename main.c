@@ -25,10 +25,14 @@ int main()
         printf("\n\033[31mInvalid password. Access denied\033[0m\n");
         return -1;
     }
-    else
+    else if (access == 0)
     {
         printf("\n\033[32mWelcome to Hospital Management System!\033[0m\n");
         showUserMenu();
+    }
+    else
+    {
+        printf("Invalid input\n");
     }
     return 0;
 }
@@ -49,7 +53,7 @@ int login()
         printf("Enter password: ");
         fgets(password, sizeof(password), stdin);
         password[strcspn(password, "\n")] = '\0';
-        if (strcmp(password, "12345678") == 0)
+        if (strcmp(password, "1234") == 0)
         {
             return 1;
         }
@@ -61,6 +65,10 @@ int login()
     else if (user == 2)
     {
         return 0;
+    }
+    else
+    {
+        return -2;
     }
 }
 
